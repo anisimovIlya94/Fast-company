@@ -18,7 +18,7 @@ const Users = () => {
 					</td>
 					<td>{user.profession.name}</td>
 					<td>{user.completedMeetings}</td>
-					<td>{user.rate + ' /5'}</td>
+					<td>{user.rate} /5</td>
 					<td><button className="btn btn-danger" onClick = {()=>handleDelete(user._id)}>delete</button></td>
 				</tr>
 		);
@@ -29,31 +29,37 @@ const Users = () => {
 		}))
 	}
 	const renderPhrase = (number) => {
-		const style = number > 0 ? "badge bg-primary" : "badge bg-danger";
-		const typeOfWords = ((number > 1 && number < 5) || (number > 20 && (number % 10 === 2 || number % 10 === 3 || number % 10 === 4))) ? ' человека тусанет с тобой сегодня' : ' человек тусанет с тобой сегодня'
-		return <span className={style}> {number > 0 ? number + typeOfWords : 'Никто с тобой не тусанет'} </span>
+		const lastOne = Number(number.toString().slice(-1));
+      if (number > 4 && number < 15 || lastOne === 1) return "человек тусанет";
+      if ([2, 3, 4].includes(lastOne)) return "человека тусанут";
+      return "человек тусанет";
 	}
 	return (
 		<>
-			<h1>{renderPhrase(users.length)}</h1>
-			<table className="table">
-				<thead>
-					{users.length > 0 ?
-						<tr>
-							<th scope="name">Имя</th>
-							<th scope="quality">Качества</th>
-							<th scope="profession">Профессия</th>
-							<th scope="completedMeetings">Встретился,раз</th>
-							<th scope="rate">Оценка</th>
-							<th scope="button"></th>
-						</tr>
-					: ''
-					}
-				</thead>
-				<tbody>
-					{userOfUsersList}
-				</tbody>
-			</table>
+			<h1>
+				<span className={"badge " + (users.length > 0 ? "bg-primary" : "bg-danger")}>
+				{users.length > 0
+                        ? `${users.length + " " + renderPhrase(users.length)} с тобой сегодня`
+                        : "Никто с тобой не тусанет"}
+				</span>
+			</h1>
+			{users.length > 0 && (
+				<table className="table">
+					<thead>
+							<tr>
+								<th scope="name">Имя</th>
+								<th scope="quality">Качества</th>
+								<th scope="profession">Профессия</th>
+								<th scope="completedMeetings">Встретился,раз</th>
+								<th scope="rate">Оценка</th>
+								<th scope="button"></th>
+							</tr>
+					</thead>
+					<tbody>
+						{userOfUsersList}
+					</tbody>
+				</table>
+			)}
 		</>
 	);
 }
