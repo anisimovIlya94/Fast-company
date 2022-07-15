@@ -2,7 +2,7 @@ import React from 'react'
 import Quality from './quality';
 import Bookmark from './bookmark';
 
-const User = ({ user, ...rest }) => {
+const User = ({ user, methods }) => {
   return (
       <tr key={user._id}>
          <td>{user.name}</td>
@@ -15,8 +15,8 @@ const User = ({ user, ...rest }) => {
          <td>{user.profession.name}</td>
          <td>{user.completedMeetings}</td>
          <td>{user.rate} /5</td>
-        <td><Bookmark bookmark={user.bookmark} onFavourites={rest.onBookmark} id={user._id}/></td>
-         <td><button className="btn btn-danger" onClick = {()=>rest.onDelete(user._id)}>delete</button></td>
+        <td><Bookmark bookmark={user.bookmark} onFavourites={methods.onBookmark} id={user._id}/></td>
+         <td><button className="btn btn-danger" onClick = {()=>methods.onDelete(user._id)}>delete</button></td>
       </tr>
   )
 }

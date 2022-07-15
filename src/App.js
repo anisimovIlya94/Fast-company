@@ -21,8 +21,8 @@ function App() {
   }
   return (
     <>
-    <SearchStatus props={users} />
-      <Users users={users} onDelete={handleDelete} onBookmark={handleToggleBookmark}/>
+    <SearchStatus usersQuantity={users.length} />
+    <Users users={users} onDelete={handleDelete} onBookmark={handleToggleBookmark}/>
     </>
   );
 }

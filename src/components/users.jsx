@@ -1,9 +1,9 @@
 import React from "react";
 import User from "./user";
 
-const Users = ({ users, ...rest}) => {
+const Users = ({ users, ...rest }) => {
    const userOfUsersList = users.map((user) => {
-      return <User key={user._id} user={user} onDelete={rest.onDelete} onBookmark={rest.onBookmark} />
+		return <User key={user._id} user={user} methods={rest} />
 	})
 	return (
 		<>

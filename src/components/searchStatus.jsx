@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SearchStatus = ({ props }) => {
+const SearchStatus = ({ usersQuantity }) => {
    const renderPhrase = (number) => {
 		const lastOne = Number(number.toString().slice(-1));
       if (number > 4 && number < 15 || lastOne === 1) return "человек тусанет";
@@ -9,9 +9,9 @@ const SearchStatus = ({ props }) => {
 	}
   return (
 <h1>
-	<span className={"badge " + (props.length > 0 ? "bg-primary" : "bg-danger")}>
-			{props.length > 0
-            ? `${props.length + " " + renderPhrase(props.length)} с тобой сегодня`
+	<span className={"badge " + (usersQuantity > 0 ? "bg-primary" : "bg-danger")}>
+			{usersQuantity > 0
+            ? `${usersQuantity + " " + renderPhrase(usersQuantity)} с тобой сегодня`
             : "Никто с тобой не тусанет"}
 	</span>
 </h1>
