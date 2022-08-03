@@ -4,6 +4,7 @@ import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 import Bookmark from "./bookmark";
 import QualitiesList from "./qualitiesList";
+import Table from "./table";
 
 const UsersTable = ({
     users,
@@ -13,7 +14,7 @@ const UsersTable = ({
     onDelete,
     ...rest }) => {
     const columns = {
-        name: { path: "name", name: "Имя" },
+        name: { path: "name", name: "Имя", choises:false},
         quality: {
             name: "Качества",
             component: (user) => (
@@ -46,10 +47,10 @@ const UsersTable = ({
         }
     };
     return (
-        <table className="table">
-            <TableHeader {...{ onSort, selectedSort }} columns={columns}/>
-            <TableBody {...{columns,data:users}}/>
-        </table>
+			<Table onSort={onSort} selectedSort={selectedSort} columns={columns} data={users}>
+						<TableHeader {...{ onSort, selectedSort }} columns={columns}/>
+						<TableBody {...{columns,data:users}}/>
+		  	</Table>
     );
 };
 UsersTable.propTypes = {

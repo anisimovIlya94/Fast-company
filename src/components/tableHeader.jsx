@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useState } from "react";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
+	const [stateIcon,setStateIcon] = useState()
     const handleSort = (item) => {
         if (selectedSort.iter === item) {
-            onSort({ ...selectedSort, order: selectedSort.order === "asc" ? "desc" : "asc" });
+				const order = selectedSort.order === "asc" ? "desc" : "asc";
+            onSort({ ...selectedSort, order: order  });
         } else {
             onSort({ iter: item, order: "asc" });
         }
@@ -17,7 +20,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         scope="name"
                         key={column}
                         {...{ role: columns[column].path && "button" }}>
-                        {columns[column].name}
+								{columns[column].name}
                     </th>
                 ))}
             </tr>

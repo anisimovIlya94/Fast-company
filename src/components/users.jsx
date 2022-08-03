@@ -8,18 +8,40 @@ import UsersTable from "./usersTable";
 import _ from "lodash";
 import api from "../api";
 
-const Users = ({ users, ...rest }) => {
+const Users = () => {
     const pageSize = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+	 const [users, setUsers] = useState([]);
+    useEffect(() => {
+        api.users.fetchAll().then((data) => { setUsers(data); });
+    }, []);
+    const handleDelete = (id) => {
+        setUsers(
+            users.filter((user) => {
+                return user._id !== id;
+            })
+        );
+    };
+    const handleToggleBookmark = (id) => {
+        setUsers(
+            users.map((user) => {
+                if (user._id === id) {
+                    return { ...user, bookmark: !user.bookmark };
+                }
+                return user;
+            })
+        );
+    };
     useEffect(() => {
         api.professions.fetchAll().then((data) => { setProfessions(data); });
     }, []);
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
+	 if(users){
     const filteredUsers = selectedProf ? users.filter((user) => user.profession._id === selectedProf._id) : users;
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
     const count = filteredUsers.length;
@@ -50,7 +72,7 @@ const Users = ({ users, ...rest }) => {
             {count > 0 && (
                 <div className="d-flex flex-column">
                     <SearchStatus usersQuantity={count} />
-                    <UsersTable users={usersCrop} onSort={handleSort} selectedSort={sortBy} {...rest}/>
+                    <UsersTable users={usersCrop} onSort={handleSort} selectedSort={sortBy} onDelete={handleDelete} onBookmark={handleToggleBookmark}/>
                     <div className="d-flex justify-content-center">
                         <Pagination
                             itemCount={count}
@@ -62,6 +84,8 @@ const Users = ({ users, ...rest }) => {
             )}
         </div>
     );
+	}
+	return "loading..."
 };
 Users.propTypes = {
     users: PropTypes.array.isRequired
