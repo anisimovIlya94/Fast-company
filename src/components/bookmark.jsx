@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Bookmark = ({ bookmark, onFavourites, id }) => {
+const Bookmark = ({ bookmark , ...rest}) => {
     const buttonStyle = {
         margin: "0px 0px 0px 25px"
     };
     return (
-        <button style={buttonStyle} onClick={() => onFavourites(id)}>
+        <button style={buttonStyle} {...rest}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -29,8 +29,6 @@ const Bookmark = ({ bookmark, onFavourites, id }) => {
     );
 };
 Bookmark.propTypes = {
-    bookmark: PropTypes.bool.isRequired,
-    onFavourites: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired
+    bookmark: PropTypes.bool.isRequired
 };
 export default Bookmark;
