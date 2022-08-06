@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Bookmark = ({ bookmark , ...rest}) => {
+const Bookmark = ({ bookmark, ...rest }) => {
     const buttonStyle = {
         margin: "0px 0px 0px 25px"
     };

@@ -3,7 +3,7 @@ import Users from "./components/users";
 import "bootstrap/dist/css/bootstrap.css";
 
 function App() {
-    return <Users/>
+    return <Users/>;
 }
 
 export default App;
