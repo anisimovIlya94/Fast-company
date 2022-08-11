@@ -1,9 +1,21 @@
 import React from "react";
-import Users from "./components/users";
-import "bootstrap/dist/css/bootstrap.css";
+import { Switch, Route } from "react-router-dom";
+import NavBar from "./components/navBar";
+import Users from "./components/layouts/users";
+import Main from "./components/layouts/main";
+import Login from "./components/layouts/login";
 
 function App() {
-    return <Users/>;
+    return (
+        <div>
+            <NavBar/>
+            <Switch>
+                <Route exact path="/" component={Main} />
+                <Route path="/login" component={Login} />
+                <Route path="/users/:userId?" component={Users}/>
+            </Switch>
+        </div>
+    );
 }
 
 export default App;

@@ -1,57 +1,26 @@
 import React from "react";
-import Quality from "./quality";
-import Bookmark from "./bookmark";
+import QualitiesList from "./qualitiesList";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const User = ({
-    _id,
-    name,
-    qualities,
-    profession,
-    completedMeetings,
-    rate,
-    onDelete,
-    bookmark,
-    onBookmark
-}) => {
+const User = ({ userInfo }) => {
+    const history = useHistory();
+    const handleSave = () => {
+        history.replace("/users");
+    };
     return (
-        <tr key={_id}>
-            <td>{name}</td>
-            <td>
-                {qualities.map((quality) => {
-                    return <Quality key={quality._id} quality={quality} />;
-                })}
-            </td>
-            <td>{profession.name}</td>
-            <td>{completedMeetings}</td>
-            <td>{rate} /5</td>
-            <td>
-                <Bookmark
-                    bookmark={bookmark}
-                    onFavourites={onBookmark}
-                    id={_id}
-                />
-            </td>
-            <td>
-                <button
-                    className="btn btn-danger"
-                    onClick={() => onDelete(_id)}
-                >
-                    delete
-                </button>
-            </td>
-        </tr>
+        userInfo &&
+     <>
+         <h1>{userInfo.name}</h1>
+         <h2>{`Профессия:` + " " + userInfo.profession.name}</h2>
+         <QualitiesList qualities={userInfo.qualities} />
+         <h5>{`completedMeetings:` + " " + userInfo.completedMeetings}</h5>
+         <h2>{`Rate:` + " " + userInfo.rate}</h2>
+         <button onClick={() => handleSave()}>Все пользователи</button>
+     </>
     );
 };
 User.propTypes = {
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    qualities: PropTypes.array.isRequired,
-    profession: PropTypes.object.isRequired,
-    completedMeetings: PropTypes.number.isRequired,
-    rate: PropTypes.number.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    bookmark: PropTypes.bool.isRequired,
-    onBookmark: PropTypes.func.isRequired
+    userInfo: PropTypes.object.isRequired
 };
 export default User;
