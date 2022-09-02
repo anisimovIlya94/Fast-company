@@ -6,6 +6,9 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder }) =
     const getInputClasses = () => {
         return "form-control " + (error ? "is-invalid" : "");
     };
+    const handleChange = ({target}) => {
+        onChange({name: target.name, value: target.value})
+    }
     const toggleShowPassword = () => {
         setShowPassword((prevState) => !prevState);
     };
@@ -17,7 +20,7 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder }) =
                     id={name}
                     value={value}
                     name={name}
-                    onChange={onChange}
+                    onChange={handleChange}
                     placeholder={placeholder}
                     className={getInputClasses()} />
                 {type === "password" &&
