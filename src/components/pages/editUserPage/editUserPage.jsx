@@ -7,7 +7,7 @@ import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import PropTypes from "prop-types";
 
-const EditUserPage = ({ user }) => {
+const EditUserPage = ({ user, onReturn }) => {
     const [qualities, setQualities] = useState([]);
     const [professions, setProfession] = useState([]);
     const [errors, setErrors] = useState({});
@@ -87,7 +87,6 @@ const EditUserPage = ({ user }) => {
         return Object.keys(errors).length === 0;
     };
     const isValid = Object.keys(errors).length === 0;
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
@@ -98,6 +97,7 @@ const EditUserPage = ({ user }) => {
             profession: getProfessionById(profession),
             qualities: getQualities(qualities)
         });
+        onReturn();
     };
     return (
         <form onSubmit={handleSubmit}>
@@ -153,6 +153,7 @@ const EditUserPage = ({ user }) => {
     );
 };
 EditUserPage.propTypes = {
-    user: PropTypes.array
+    user: PropTypes.object,
+    onReturn: PropTypes.func
 };
 export default EditUserPage;

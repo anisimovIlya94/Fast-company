@@ -16,6 +16,11 @@ const UserPage = ({ userId }) => {
     const handleClick = () => {
         history.push(`/users/${userId}/edit`);
     };
+    const handleReturn = () => {
+        setUser();
+        api.users.getById(userId).then((data) => setUser(data));
+        history.replace(`/users/${userId}`);
+    };
     if (user) {
         return (
             <>
@@ -23,7 +28,7 @@ const UserPage = ({ userId }) => {
                     ? <div className="container mt-5">
                         <div className="row">
                             <div className="col-md-6 offset-md-3 shadow p-4">
-                                <EditUserPage user={user} />
+                                <EditUserPage user={user} onReturn={handleReturn}/>
                             </div>
                         </div>
                     </div>
