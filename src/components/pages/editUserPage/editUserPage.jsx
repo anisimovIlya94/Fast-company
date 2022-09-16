@@ -149,7 +149,7 @@ const EditUserPage = ({ user, onReturn }) => {
             >
                 Обновить
             </button>
-        </form>
+            </form>
     );
 };
 EditUserPage.propTypes = {

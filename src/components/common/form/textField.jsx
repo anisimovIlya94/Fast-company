@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const TextField = ({ label, type, name, value, onChange, error, placeholder }) => {
+const TextField = ({ label, type, name, value, onChange, error, placeholder, textarea }) => {
     const [showPassword, setShowPassword] = useState(false);
     const getInputClasses = () => {
         return "form-control " + (error ? "is-invalid" : "");
@@ -13,7 +13,23 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder }) =
         setShowPassword((prevState) => !prevState);
     };
     return (
-        <div className='mb-4'>
+        textarea
+            ? <div className="mb-4">
+                <label
+                    htmlFor="exampleFormControlTextarea1"
+                    className="form-label"
+                >{label}
+                </label>
+                <textarea
+                    className="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                    name={name}
+                    value={value}
+                    onChange={handleChange}
+                ></textarea>
+            </div>
+            : <div className='mb-4'>
             <label htmlFor={name}>{label}</label>
             <div className={"input-group has-validation"}>
                 <input type={ showPassword ? "text" : type}
@@ -46,7 +62,8 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder }) =
 };
 TextField.defaultProps = {
     type: "text",
-    placeholder: ""
+    placeholder: "",
+    textarea: false
 };
 TextField.propTypes = {
     label: PropTypes.string,
