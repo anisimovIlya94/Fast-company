@@ -15,7 +15,7 @@ const UserPage = ({ userId }) => {
     const history = useHistory();
     const [user, setUser] = useState();
     useEffect(() => {
-        api.users.getById(userId).then((data) => setUser(data));
+        console.log(api.users.getById(userId));
     }, []);
     const handleClick = useCallback(() => {
         history.push(`/users/${userId}/edit`);

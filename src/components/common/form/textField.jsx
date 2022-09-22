@@ -6,9 +6,9 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder, tex
     const getInputClasses = () => {
         return "form-control " + (error ? "is-invalid" : "");
     };
-    const handleChange = ({target}) => {
-        onChange({name: target.name, value: target.value})
-    }
+    const handleChange = ({ target }) => {
+        onChange({ name: target.name, value: target.value });
+    };
     const toggleShowPassword = () => {
         setShowPassword((prevState) => !prevState);
     };
@@ -30,16 +30,16 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder, tex
                 ></textarea>
             </div>
             : <div className='mb-4'>
-            <label htmlFor={name}>{label}</label>
-            <div className={"input-group has-validation"}>
-                <input type={ showPassword ? "text" : type}
-                    id={name}
-                    value={value}
-                    name={name}
-                    onChange={handleChange}
-                    placeholder={placeholder}
-                    className={getInputClasses()} />
-                {type === "password" &&
+                <label htmlFor={name}>{label}</label>
+                <div className={"input-group has-validation"}>
+                    <input type={ showPassword ? "text" : type}
+                        id={name}
+                        value={value}
+                        name={name}
+                        onChange={handleChange}
+                        placeholder={placeholder}
+                        className={getInputClasses()} />
+                    {type === "password" &&
               <button className='btn btn-outline-secondary' type='button' onClick={toggleShowPassword}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-eye" viewBox="0 0 16 16">
                       {showPassword
@@ -55,9 +55,9 @@ const TextField = ({ label, type, name, value, onChange, error, placeholder, tex
                       }
                   </svg>
               </button>}
-                {error && <div className='invalid-feedback'>{error}</div>}
+                    {error && <div className='invalid-feedback'>{error}</div>}
+                </div>
             </div>
-        </div>
     );
 };
 TextField.defaultProps = {
@@ -72,6 +72,7 @@ TextField.propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func,
     error: PropTypes.string,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    textarea: PropTypes.bool
 };
 export default TextField;

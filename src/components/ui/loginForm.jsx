@@ -53,14 +53,14 @@ const LoginForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
     return (
-            <form onSubmit={handleSubmit}>
-                <TextField label="Email" name="email" value={data.email} onChange={handleChange} error={errors.email}/>
-                <TextField label="Пароль" type="password" name="password" value={data.password} onChange={handleChange} error={errors.password} />
-                <CheckBoxField name="stayOn" value={data.stayOn} onChange={handleChange}>
-                    Оставаться в системе
-                </CheckBoxField>
-                <button className="btn btn-primary w-100 mx-auto mb-2" disabled={!isValid}>Отправить</button>
-            </form>
+        <form onSubmit={handleSubmit}>
+            <TextField label="Email" name="email" value={data.email} onChange={handleChange} error={errors.email}/>
+            <TextField label="Пароль" type="password" name="password" value={data.password} onChange={handleChange} error={errors.password} />
+            <CheckBoxField name="stayOn" value={data.stayOn} onChange={handleChange}>
+                Оставаться в системе
+            </CheckBoxField>
+            <button className="btn btn-primary w-100 mx-auto mb-2" disabled={!isValid}>Отправить</button>
+        </form>
     );
 };
 

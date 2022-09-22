@@ -18,7 +18,7 @@ function commentDate(ms) {
     } else if (different > 1800 && different <= 86400) {
         return `${hours < 10 ? "0" + hours : hours}:${minutes < 10 ? "0" + minutes : minutes}`;
     } else if (different > 86400 && different <= 2678400) {
-        return `${date.getDate()}.${date.toLocaleString("default", { month: "long" })}`;
+        return `${date.getDate()} ${date.toLocaleString("default", { month: "long" })}`;
     } else if (different > 2678400) {
         return `${day < 10 ? "0" + day : day}.${month < 10 ? "0" + month : month}.${year}`;
     }

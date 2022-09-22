@@ -8,6 +8,7 @@ import UsersTable from "../../ui/usersTable";
 import TextField from "../../common/form/textField";
 import _ from "lodash";
 import api from "../../../api";
+import { useUsers } from "../../../hooks/useUsers";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -15,27 +16,19 @@ const UsersListPage = () => {
     const [selectedProf, setSelectedProf] = useState();
     const [userSearch, setUserSearch] = useState("");
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
-    const [users, setUsers] = useState();
+    const { users } = useUsers();
     const pageSize = 6;
-    useEffect(() => {
-        api.users.fetchAll().then((data) => { setUsers(data); });
-    }, []);
     const handleDelete = (id) => {
-        setUsers(
-            users.filter((user) => {
-                return user._id !== id;
-            })
-        );
+        console.log(users);
     };
     const handleToggleBookmark = (id) => {
-        setUsers(
-            users.map((user) => {
-                if (user._id === id) {
-                    return { ...user, bookmark: !user.bookmark };
-                }
-                return user;
-            })
-        );
+        const newArray = users.map((user) => {
+            if (user._id === id) {
+                return { ...user, bookmark: !user.bookmark };
+            }
+            return user;
+        });
+        console.log(newArray);
     };
     useEffect(() => {
         api.professions.fetchAll().then((data) => { setProfessions(data); });
