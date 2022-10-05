@@ -5,22 +5,25 @@ import Users from "./components/layouts/users";
 import Main from "./components/layouts/main";
 import Login from "./components/layouts/login";
 import ProfessionProvider from "./hooks/useProfessions";
-import QualityProvider from "./hooks/useQualityes";
+import QualityProvider from "./hooks/useQualities";
+import AuthProvider from "./hooks/useAuth";
 
 function App() {
     return (
         <div>
-            <NavBar/>
-            <ProfessionProvider>
-                <QualityProvider>
-                    <Switch>
-                        <Route exact path="/" component={Main} />
-                        <Route path="/login/:type?" component={Login} />
-                        <Route path="/users/:userId?/:edit?" component={Users} />
-                        <Redirect to="/" />
-                    </Switch>
-                </QualityProvider>
-            </ProfessionProvider>
+            <AuthProvider>
+                <NavBar/>
+                <ProfessionProvider>
+                    <QualityProvider>
+                        <Switch>
+                            <Route exact path="/" component={Main} />
+                            <Route path="/login/:type?" component={Login} />
+                            <Route path="/users/:userId?/:edit?" component={Users} />
+                            <Redirect to="/" />
+                        </Switch>
+                    </QualityProvider>
+                </ProfessionProvider>
+            </AuthProvider>
         </div>
     );
 }
