@@ -8,8 +8,9 @@ const MultiSelectField = ({ options, onChange, name, label, defaultValue }) => {
             ? Object.values(options)
             : options;
 
-    const handleChange = (value) => {
-        onChange({ name: name, value });
+    const handleChange = (e) => {
+        const qualitiesList = e.map((qual) => qual.value)
+        onChange({ name: name, value: qualitiesList });
     };
     return (
         <div className="mb-4">

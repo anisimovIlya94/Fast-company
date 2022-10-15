@@ -1,19 +1,37 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import configFile from "../config.json";
+import { httpAuth } from "../hooks/useAuth";
+import localStorageService, { setTokens } from "./localStorage.service";
 
 const http = axios.create({
     baseURL: configFile.endPoint
 });
 
-// axios.defaults.baseURL = configFile.endPoint;
-
 http.interceptors.request.use(
-    function (config) {
+    async function (config) {
         if (configFile.isFireBase) {
             const containSlash = /\/$/gi.test(config.url);
-            config.url = (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
-            return config;
+            config.url =
+                (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
+            const refreshToken = localStorageService.getRefreshToken();
+            const expiresDate = localStorageService.getExpiresDateToken();
+            if (refreshToken && expiresDate < Date.now()) {
+                const { data } = await httpAuth.post("token", {
+                    grant_type: "refresh_token",
+                    refresh_token: refreshToken
+                });
+                setTokens({
+                    idToken: data.id_token,
+                    expiresIn: data.expires_in,
+                    refreshToken: data.refresh_token,
+                    localId: data.user_id
+                });
+            }
+            const accessToken = localStorageService.getAccessToken();
+            if (accessToken) {
+                config.params = { ...config.params, auth: accessToken };
+            }
         }
         return config;
     },
@@ -23,12 +41,12 @@ http.interceptors.request.use(
 );
 
 const transformer = (data) => {
-    if (data) {
+    if (data && !data._id) {
         return Object.keys(data).map((key) => {
             return { ...data[key] };
         });
     } else {
-        return [];
+        return data;
     }
 };
 
@@ -41,9 +59,9 @@ http.interceptors.response.use(
     },
     function (error) {
         const expectedErrors =
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status < 500;
+            error.response &&
+            error.response.status >= 400 &&
+            error.response.status < 500;
         if (!expectedErrors) {
             toast.error("Something was wrong. Try it later");
         }
@@ -55,7 +73,8 @@ const httpServices = {
     get: http.get,
     put: http.put,
     post: http.post,
-    delete: http.delete
+    delete: http.delete,
+    patch: http.patch
 };
 
 export default httpServices;

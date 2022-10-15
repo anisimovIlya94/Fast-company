@@ -1,16 +1,25 @@
 import React from "react";
 import RenderUserImage from "./renderUserImage";
 import PropTypes from "prop-types";
+import { useAuth } from "../../hooks/useAuth";
+import { useHistory } from "react-router-dom";
 
-const UserCard = ({ user, onChange }) => {
+const UserCard = ({ user }) => {
+    const { currentUser } = useAuth();
+    const history = useHistory();
+    const handleEdit = () => {
+        history.push(`/users/${user._id}/edit`)
+    }
     return (
         <div className="card mb-3">
             <div className="card-body">
-                <button className="position-absolute top-0 end-0 btn btn-light btn-sm" onClick={onChange}>
+                {user._id === currentUser._id && 
+                <button className="position-absolute top-0 end-0 btn btn-light btn-sm" onClick={handleEdit}>
                     <i className="bi bi-gear"></i>
                 </button>
+                }
                 <div className="d-flex flex-column align-items-center text-center position-relative">
-                    <RenderUserImage width="165px" height="155px" />
+                    <RenderUserImage image={user.image} width="165px" height="155px" />
                     <div className="mt-3">
                         <h4>{user.name}</h4>
                         <p className="text-secondary mb-1">{user.profession.name}</p>
@@ -34,4 +43,4 @@ UserCard.propTypes = {
     profession: PropTypes.object,
     onChange: PropTypes.func
 };
-export default React.memo(UserCard);
+export default UserCard;

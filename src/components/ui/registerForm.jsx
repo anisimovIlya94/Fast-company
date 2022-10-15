@@ -16,9 +16,13 @@ const RegisterForm = () => {
         password: "",
         profession: "",
         sex: "male",
+        name: "",
         qualities: [],
         licence: false
     });
+    // useEffect(() => {
+    //     console.log(data)
+    // },[data])
     const history = useHistory();
     const { signUp } = useAuth();
     const { qualities } = useQualities();
@@ -26,6 +30,7 @@ const RegisterForm = () => {
         value: optionName._id,
         label: optionName.name
     }));
+    
     const { professions } = useProfessions();
     const professionsList = professions.map((professionName) => ({
         label: professionName.name,
@@ -45,6 +50,15 @@ const RegisterForm = () => {
             },
             isEmail: {
                 message: "Email введен некорректно"
+            }
+        },
+        name: {
+            isRequired: {
+                message: "Имя обязательно для заполнения"
+            },
+            minSymbols: {
+                message: "Имя должно состоять минимум из 3 символов",
+                value: 3
             }
         },
         password: {
@@ -88,10 +102,8 @@ const RegisterForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        const { qualities } = data;
-        const newData = { ...data, qualities: qualities.map((q) => q.value) };
         try {
-            await signUp(newData);
+            await signUp(data);
             history.push("/");
         } catch (error) {
             setErrors(error);
@@ -105,6 +117,13 @@ const RegisterForm = () => {
                 value={data.email}
                 onChange={handleChange}
                 error={errors.email}
+            />
+            <TextField
+                label="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
             />
             <TextField
                 label="Пароль"

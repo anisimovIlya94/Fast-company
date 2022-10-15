@@ -7,22 +7,28 @@ import Login from "./components/layouts/login";
 import ProfessionProvider from "./hooks/useProfessions";
 import QualityProvider from "./hooks/useQualities";
 import AuthProvider from "./hooks/useAuth";
+import ProtectedRoute from "./components/common/protectedRoute";
+import LogOut from "./components/layouts/logOut";
 
 function App() {
     return (
         <div>
-            <AuthProvider>
-                <NavBar/>
-                <ProfessionProvider>
-                    <QualityProvider>
+           <AuthProvider>
+                <NavBar />
+                <QualityProvider>
+                    <ProfessionProvider>
                         <Switch>
-                            <Route exact path="/" component={Main} />
+                            <ProtectedRoute
+                                path="/users/:userId?/:edit?"
+                                component={Users}
+                            />
                             <Route path="/login/:type?" component={Login} />
-                            <Route path="/users/:userId?/:edit?" component={Users} />
+                            <Route path="/logout" component={LogOut} />
+                            <Route path="/" exact component={Main} />
                             <Redirect to="/" />
                         </Switch>
-                    </QualityProvider>
-                </ProfessionProvider>
+                    </ProfessionProvider>
+                </QualityProvider>
             </AuthProvider>
         </div>
     );

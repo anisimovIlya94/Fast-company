@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from "react";
-import api from "../../../api";
-import SelectField from "../form/selectField";
+import React, { useState } from "react";
 import TextField from "../form/textField";
-import PropTypes from "prop-types";
+import { useComments } from "../../../hooks/useComments";
 
-const initialData = {
-    name: "",
-    message: ""
-};
 
-const AddCommentForm = ({ onSubmit }) => {
-    const [data, setData] = useState(initialData);
-    const [names, setNames] = useState([]);
-    useEffect(() => {
-        api.users.fetchAll().then((data) => {
-            setNames(data.map((user) => ({ label: user.name, value: user._id })));
-        });
-    }, []);
-    const isValid = Boolean(data.name) && Boolean(data.message);
+const AddCommentForm = () => {
+    const [data, setData] = useState({});
+    const isValid = Boolean(data);
+    const { createComment } = useComments();
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -25,30 +14,37 @@ const AddCommentForm = ({ onSubmit }) => {
         }));
     };
     const handleSubmit = () => {
-        onSubmit({
-            userId: data.name,
-            content: data.message
-        });
-        setData(initialData);
+        createComment(data);
+        setData({});
     };
     return (
         <div className="card mb-2">
             <div className="card-body">
                 <div>
                     <h2>New comment</h2>
-                    <div className="mb-4">
-                        <SelectField value={data.name} defaultOption="Выберите пользователя" name="name" options={names} onChange={handleChange}/>
-                    </div>
-                    <TextField textarea={true} name="message" label="Сообщение" onChange={handleChange} value={data.message} />
+                    <TextField
+                        textarea={true}
+                        name="content"
+                        label="Сообщение"
+                        onChange={handleChange}
+                        value={data.content || ""}
+                    />
                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button onClick={handleSubmit} disabled={!isValid} className="btn btn-primary me-md-2" type="button">Опубликовать</button>
+                        <button
+                            onClick={handleSubmit}
+                            disabled={!isValid}
+                            className="btn btn-primary me-md-2"
+                            type="button"
+                        >
+                            Опубликовать
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
-AddCommentForm.propTypes = {
-    onSubmit: PropTypes.func
-};
+// AddCommentForm.propTypes = {
+//     onSubmit: PropTypes.func
+// };
 export default AddCommentForm;

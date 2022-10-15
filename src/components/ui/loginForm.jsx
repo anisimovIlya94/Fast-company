@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 const LoginForm = () => {
     const [data, setData] = useState({ email: "", password: "", stayOn: false });
     const [errors, setErrors] = useState({});
+    const [enterError, setEnterError] = useState("");
     const { signIn } = useAuth();
     const history = useHistory();
     useEffect(() => {
@@ -17,24 +18,11 @@ const LoginForm = () => {
         email: {
             isRequired: {
                 message: `Электронная почта обязательна для заполнения`
-            },
-            isEmail: {
-                message: "Электронная почта введена некорректно"
             }
         },
         password: {
             isRequired: {
                 message: `Пароль обязателен для заполнения`
-            },
-            isCapitalSymbol: {
-                message: "Пароль должен содержать хотя бы одну заглавную букву"
-            },
-            isContainDigital: {
-                message: "Пароль должен содержать хотя бы одно число"
-            },
-            minSymbols: {
-                message: "Пароль должен состоять из не менее 8 символов",
-                value: 8
             }
         }
     };
@@ -48,6 +36,7 @@ const LoginForm = () => {
             ...prevState,
             [target.name]: target.value
         }));
+        setEnterError("");
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,11 +44,10 @@ const LoginForm = () => {
         if (!isValid) return null;
         try {
             await signIn(data);
-            history.push("/");
+            history.push(history.location.state ? history.location.state.from.pathname : "/");
         } catch (error) {
-            setErrors(error);
+            setEnterError(error.message);
         }
-        // console.log(data);
     };
     const isValid = Object.keys(errors).length === 0;
     return (
@@ -69,7 +57,8 @@ const LoginForm = () => {
             <CheckBoxField name="stayOn" value={data.stayOn} onChange={handleChange}>
                 Оставаться в системе
             </CheckBoxField>
-            <button className="btn btn-primary w-100 mx-auto mb-2" disabled={!isValid}>Отправить</button>
+            {enterError && <p className="text-danger">{enterError}</p>}
+            <button className="btn btn-primary w-100 mx-auto mb-2" disabled={!isValid || enterError}>Отправить</button>
         </form>
     );
 };

@@ -1,14 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const RenderUserImage = ({ width, height }) => {
+const RenderUserImage = ({ image, width, height }) => {
     return (
         <img
-            src={`https://avatars.dicebear.com/api/avataaars/${(
-                Math.random() + 1
-            )
-                .toString(36)
-                .substring(7)}.svg`}
+            src={image}
             className="rounded-circle shadow-1-strong me-3"
             alt="avatar"
             style={{ width: width, height: height }}
@@ -22,7 +18,7 @@ RenderUserImage.defaultProps = {
     height: "65px"
 };
 RenderUserImage.propTypes = {
-    width: PropTypes.number,
-    height: PropTypes.number
+    width: PropTypes.string,
+    height: PropTypes.string
 };
 export default RenderUserImage;
