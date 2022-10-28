@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import TextField from "../form/textField";
-import { useComments } from "../../../hooks/useComments";
-
+import { useDispatch } from "react-redux";
+import { createComment } from "../../../store/comments";
+import { useParams } from "react-router-dom";
 
 const AddCommentForm = () => {
     const [data, setData] = useState({});
+    const { userId } = useParams();
+    const dispatch = useDispatch();
     const isValid = Boolean(data);
-    const { createComment } = useComments();
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -14,7 +16,7 @@ const AddCommentForm = () => {
         }));
     };
     const handleSubmit = () => {
-        createComment(data);
+        dispatch(createComment({ ...data, pageId: userId }));
         setData({});
     };
     return (
@@ -44,7 +46,4 @@ const AddCommentForm = () => {
         </div>
     );
 };
-// AddCommentForm.propTypes = {
-//     onSubmit: PropTypes.func
-// };
 export default AddCommentForm;

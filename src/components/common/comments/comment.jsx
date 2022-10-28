@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { getCurrentUserId, getUserById } from "../../../store/users";
 
 const Comment = ({ data, onDelete }) => {
-    const currentUserId = useSelector(getCurrentUserId())
-    const user = useSelector(getUserById(data.userId))
+    const currentUserId = useSelector(getCurrentUserId());
+    const user = useSelector(getUserById(data.userId));
     return (
         <div className="d-flex flex-start bg-light">
             <RenderUserImage image={user.image} />
