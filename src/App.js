@@ -1,22 +1,24 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import NavBar from "./components/ui/navBar";
 import Users from "./components/layouts/users";
 import Main from "./components/layouts/main";
 import Login from "./components/layouts/login";
-import ProfessionProvider from "./hooks/useProfessions";
-import QualityProvider from "./hooks/useQualities";
 import AuthProvider from "./hooks/useAuth";
 import ProtectedRoute from "./components/common/protectedRoute";
 import LogOut from "./components/layouts/logOut";
+import AppLoader from "./components/ui/hoc/appLoader";
+import { useDispatch } from "react-redux";
+import { loadQualitiesList } from "./store/qualities";
+import { loadProfessionsList } from "./store/professions";
+import { loadUsersList } from "./store/users";
 
 function App() {
     return (
         <div>
-           <AuthProvider>
+            <AppLoader>
+            <AuthProvider>
                 <NavBar />
-                <QualityProvider>
-                    <ProfessionProvider>
                         <Switch>
                             <ProtectedRoute
                                 path="/users/:userId?/:edit?"
@@ -27,9 +29,8 @@ function App() {
                             <Route path="/" exact component={Main} />
                             <Redirect to="/" />
                         </Switch>
-                    </ProfessionProvider>
-                </QualityProvider>
-            </AuthProvider>
+                </AuthProvider>
+                </AppLoader>
         </div>
     );
 }

@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Quality from "./quality";
 import PropTypes from "prop-types";
-import { useQualities } from "../../../hooks/useQualities";
+import { useDispatch, useSelector } from "react-redux";
+import { getQualitiesByIds, getQualitiesStatus, loadQualitiesList } from "../../../store/qualities";
 
 const QualitiesList = ({ qualities }) => {
-    const { isLoading } = useQualities();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(loadQualitiesList())
+    }, [])
+    const isLoading = useSelector(getQualitiesStatus())
+    const qualitiesList = useSelector(getQualitiesByIds(qualities))
+    if (isLoading) {
+        return "Loading..."
+    }
     if (!isLoading) {
         return (
             <>
-                {qualities.map((quality) => (
-                    <Quality key={quality} quality={quality} />
+                {qualitiesList.map((quality) => (
+                    <Quality key={quality._id} {...quality} />
                 ))}
             </>
         );

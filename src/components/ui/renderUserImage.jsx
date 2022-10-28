@@ -19,6 +19,7 @@ RenderUserImage.defaultProps = {
 };
 RenderUserImage.propTypes = {
     width: PropTypes.string,
-    height: PropTypes.string
+    height: PropTypes.string,
+    image: PropTypes.string
 };
 export default RenderUserImage;

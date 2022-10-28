@@ -6,35 +6,45 @@ import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import { useHistory } from "react-router-dom";
 import BackHistory from "../../common/table/backHistory";
-import { useProfessions } from "../../../hooks/useProfessions";
-import { useQualities } from "../../../hooks/useQualities";
-import { useAuth } from "../../../hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { getQualities, getQualitiesStatus } from "../../../store/qualities";
+import { getProfessions, getProfessionsStatus } from "../../../store/professions";
+import { getCurrentUserData, updateUser } from "../../../store/users";
 
 const EditUserPage = () => {
-    const { userUpdate, currentUser: user } = useAuth();
+    const dispatch = useDispatch()
+    const currentUser = useSelector(getCurrentUserData())
     const [errors, setErrors] = useState({});
-    const [data, setData] = useState({
-        name: user.name,
-        email: user.email,
-        profession: user.profession,
-        sex: user.sex,
-        qualities: user.qualities
-    });
+    const [data, setData] = useState();
+    const [isLoading, setLoading] = useState(true);
     const history = useHistory();
-    const { professions } = useProfessions();
-    const { qualities } = useQualities();
-    const professionsList = professions.map((prof) => ({
-        label: prof.name,
-        value: prof._id
-    }));
-    const qualitiesList = qualities.map((qual) => ({
-        value: qual._id,
-        label: qual.name,
-        color: qual.color
-    }));
-    const defaultQualities = qualitiesList.filter((qual) =>
-        data.qualities.includes(qual.value)
-    );
+    const professions = useSelector(getProfessions())
+    const professionsLoading = useSelector(getProfessionsStatus())
+    const qualities = useSelector(getQualities())
+    const qualitiesLoading = useSelector(getQualitiesStatus())
+    const transformData = (data) => {
+        return data.map((item) => ({
+            label: item.name,
+            value: item._id
+        }));
+    };
+    useEffect(() => {
+        if (!professionsLoading && !qualitiesLoading && !data && currentUser) {
+            setData({ ...currentUser, qualities: currentUser.qualities });
+        }
+    }, [professions, qualities, data, currentUser]);
+    useEffect(() => {
+        if (data && isLoading) {
+            setLoading(false);
+        }
+    }, [data]);
+    const getDefaulQualities = () => {
+        return transformData(
+            qualities.filter((qual) => {
+                return data.qualities.includes(qual._id);
+            })
+        );
+    };
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -69,12 +79,10 @@ const EditUserPage = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        userUpdate({ ...user, ...data });
-        history.push(`/users/${user._id}`);
+        dispatch(updateUser({ ...currentUser, ...data }));
     };
     return (
-        professionsList.length > 0 &&
-        qualitiesList.length > 0 && (
+        data && (
             <div className="container mt-5">
                 <BackHistory />
                 <div className="row">
@@ -98,7 +106,7 @@ const EditUserPage = () => {
                                 <SelectField
                                     label="Выбери свою профессию"
                                     defaultOption="Choose..."
-                                    options={professionsList}
+                                    options={transformData(professions)}
                                     name="profession"
                                     onChange={handleChange}
                                     value={data.profession}
@@ -116,9 +124,9 @@ const EditUserPage = () => {
                                     label="Выберите ваш пол"
                                 />
                                 <MultiSelectField
-                                    options={qualitiesList}
+                                    options={transformData(qualities)}
                                     onChange={handleChange}
-                                    defaultValue={defaultQualities}
+                                    defaultValue={getDefaulQualities()}
                                     name="qualities"
                                     label="Выберите ваши качества"
                                 />

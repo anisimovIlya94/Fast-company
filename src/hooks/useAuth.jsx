@@ -93,15 +93,15 @@ const AuthProvider = ({ children }) => {
         localStorageService.removeAuthData();
         setUser();
         history.push("/");
-    };
+    }
     const userUpdate = async (data) => {
         try {
-            const { content } = await userService.update(data)
-            console.log(content)
+            const { content } = await userService.update(data);
+            setUser(content);
         } catch (error) {
             errorCatcher(error);
         }
-    }
+    };
     useEffect(() => {
         if (error !== null) {
             toast(error);
@@ -138,7 +138,9 @@ const AuthProvider = ({ children }) => {
         setError(message);
     };
     return (
-        <AuthContext.Provider value={{ signUp, currentUser, signIn, logOut, userUpdate }}>
+        <AuthContext.Provider
+            value={{ signUp, currentUser, signIn, logOut, userUpdate }}
+        >
             {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>
     );

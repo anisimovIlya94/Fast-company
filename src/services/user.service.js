@@ -9,18 +9,25 @@ const userService = {
         return data;
     },
     create: async (payLoad) => {
-        console.log(payLoad)
-        const { data } = await httpServices.put(userEndPoint + payLoad._id, payLoad);
+        console.log(payLoad);
+        const { data } = await httpServices.put(
+            userEndPoint + payLoad._id,
+            payLoad
+        );
         return data;
     },
     getCurrentUser: async () => {
-        const { data } = await httpServices.get(userEndPoint + localStorageService.getUserIdToken());
+        const { data } = await httpServices.get(
+            userEndPoint + localStorageService.getUserIdToken()
+        );
         return data;
     },
     update: async (payLoad) => {
-        // console.log(payLoad)
-        const { data } = await httpServices.patch(userEndPoint + payLoad._id, payLoad);
-        return data
+        const { data } = await httpServices.patch(
+            userEndPoint + localStorageService.getUserIdToken(),
+            payLoad
+        );
+        return data;
     }
 };
 
