@@ -9,27 +9,27 @@ const httpAuth = axios.create({
 });
 
 export const authService = {
-    register: async ({email,password}) => {
-            const { data } = await httpAuth.post(`accounts:signUp`, {
-                email,
-                password,
-                returnSecureToken: true
-            });
-            return data
+    register: async ({ email, password }) => {
+        const { data } = await httpAuth.post(`accounts:signUp`, {
+            email,
+            password,
+            returnSecureToken: true
+        });
+        return data;
     },
-    logIn: async ({email,password}) => {
+    logIn: async ({ email, password }) => {
         const { data } = await httpAuth.post(`accounts:signInWithPassword`, {
             email,
             password,
             returnSecureToken: true
         });
-        return data
+        return data;
     },
     refresh: async () => {
         const { data } = await httpAuth.post("token", {
             grant_type: "refresh_token",
             refresh_token: localStorageService.getRefreshToken()
         });
-        return data
+        return data;
     }
-    }
+};

@@ -8,7 +8,10 @@ import UsersTable from "../../ui/usersTable";
 import TextField from "../../common/form/textField";
 import _ from "lodash";
 import { useSelector } from "react-redux";
-import { getProfessions, getProfessionsStatus } from "../../../store/professions";
+import {
+    getProfessions,
+    getProfessionsStatus
+} from "../../../store/professions";
 import { getCurrentUserId, getUsersList } from "../../../store/users";
 
 const UsersListPage = () => {
@@ -16,10 +19,10 @@ const UsersListPage = () => {
     const [selectedProf, setSelectedProf] = useState();
     const [userSearch, setUserSearch] = useState("");
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
-    const users = useSelector(getUsersList())
+    const users = useSelector(getUsersList());
     const currentUserId = useSelector(getCurrentUserId());
-    const professions = useSelector(getProfessions())
-    const professionsLoading = useSelector(getProfessionsStatus())
+    const professions = useSelector(getProfessions());
+    const professionsLoading = useSelector(getProfessionsStatus());
     const pageSize = 6;
     const handleToggleBookmark = (id) => {
         const newArray = users.map((user) => {
@@ -72,7 +75,7 @@ const UsersListPage = () => {
         };
         useEffect(() => {
             setCurrentPage(1);
-            console.log(usersWithoutCurrent)
+            console.log(usersWithoutCurrent);
         }, [selectedProf]);
         return (
             <div className="d-flex flex-row">

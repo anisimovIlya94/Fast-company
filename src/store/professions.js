@@ -16,7 +16,7 @@ const professionsSlice = createSlice({
         },
         professionsRecived: (state, action) => {
             state.entities = action.payload;
-            state.lastFetch = Date.now()
+            state.lastFetch = Date.now();
             state.isLoading = false;
         },
         professionsRequestFailed: (state, action) => {
@@ -24,37 +24,38 @@ const professionsSlice = createSlice({
             state.isLoading = false;
         }
     }
-})
+});
 
 const { reducer: professionsReducer, actions } = professionsSlice;
-const { professionsRequested, professionsRecived, professionsRequestFailed } = actions;
+const { professionsRequested, professionsRecived, professionsRequestFailed } =
+    actions;
 
-export const loadProfessionsList = () => async (dispatch,getState) => {
-    const { lastFetch } = getState().qualityes
+export const loadProfessionsList = () => async (dispatch, getState) => {
+    const { lastFetch } = getState().qualityes;
     if (isOutdated(lastFetch)) {
-        dispatch(professionsRequested())
+        dispatch(professionsRequested());
         try {
-            const { content } = await professionService.get()
-            dispatch(professionsRecived(content))
+            const { content } = await professionService.get();
+            dispatch(professionsRecived(content));
         } catch (error) {
-            dispatch(professionsRequestFailed(error.message))
+            dispatch(professionsRequestFailed(error.message));
         }
     }
-}
+};
 
 export const getProfessions = () => (state) => {
-    return state.professions.entities
-}
+    return state.professions.entities;
+};
 
 export const getProfessionsStatus = () => (state) => {
-    return state.professions.isLoading
-}
+    return state.professions.isLoading;
+};
 
 export const getProfessionById = (profId) => (state) => {
     if (state.professions.entities) {
-        return state.professions.entities.find((prof)=>prof._id === profId)
+        return state.professions.entities.find((prof) => prof._id === profId);
     }
-    return {}
-}
+    return {};
+};
 
-export default professionsReducer
+export default professionsReducer;

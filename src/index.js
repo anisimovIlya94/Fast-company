@@ -15,7 +15,7 @@ root.render(
     <Router history={history}>
         <Provider store={store}>
             {/* <React.StrictMode> */}
-                <App />
+            <App />
             {/* </React.StrictMode> */}
         </Provider>
     </Router>

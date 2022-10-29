@@ -1,4 +1,4 @@
-import React,{ useEffect } from "react";
+import React from "react";
 import { useParams, Redirect } from "react-router-dom";
 import UserPage from "../pages/userPage";
 import UsersListPage from "../pages/usersListPage";
@@ -9,7 +9,7 @@ import UsersLoader from "../ui/hoc/usersLoader";
 const Users = () => {
     const params = useParams();
     const { userId, edit } = params;
-    const currentUserId = useSelector(getCurrentUserId())
+    const currentUserId = useSelector(getCurrentUserId());
     return (
         <>
             <UsersLoader>
@@ -26,7 +26,7 @@ const Users = () => {
                 ) : (
                     <UsersListPage />
                 )}
-                </UsersLoader>
+            </UsersLoader>
         </>
     );
 };

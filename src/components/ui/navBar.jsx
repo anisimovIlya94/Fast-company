@@ -5,7 +5,7 @@ import { getLoggedInStatus } from "../../store/users";
 import NavProfile from "./navProfile";
 
 const NavBar = () => {
-    const isLoggedIn = useSelector(getLoggedInStatus())
+    const isLoggedIn = useSelector(getLoggedInStatus());
     return (
         <nav className="navbar bg-light mb-3">
             <div className="container-fluid">

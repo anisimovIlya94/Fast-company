@@ -7,10 +7,14 @@ import { getAuthError, logIn } from "../../store/users";
 import history from "../../utils/history";
 
 const LoginForm = () => {
-    const [data, setData] = useState({ email: "", password: "", stayOn: false });
+    const [data, setData] = useState({
+        email: "",
+        password: "",
+        stayOn: false
+    });
     const [errors, setErrors] = useState({});
-    const loginError = useSelector(getAuthError())
-    const dispatch = useDispatch()
+    const loginError = useSelector(getAuthError());
+    const dispatch = useDispatch();
     useEffect(() => {
         validate();
     }, [data]);
@@ -41,20 +45,44 @@ const LoginForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return null;
-        const redirect = history.location.state ? history.location.state.from.pathname : "/"
-        dispatch(logIn({payload:data,redirect}))
-            // history.push(history.location.state ? history.location.state.from.pathname : "/");
+        const redirect = history.location.state
+            ? history.location.state.from.pathname
+            : "/";
+        dispatch(logIn({ payload: data, redirect }));
+        // history.push(history.location.state ? history.location.state.from.pathname : "/");
     };
     const isValid = Object.keys(errors).length === 0;
     return (
         <form onSubmit={handleSubmit}>
-            <TextField label="Email" name="email" value={data.email} onChange={handleChange} error={errors.email}/>
-            <TextField label="Пароль" type="password" name="password" value={data.password} onChange={handleChange} error={errors.password} />
-            <CheckBoxField name="stayOn" value={data.stayOn} onChange={handleChange}>
+            <TextField
+                label="Email"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+                error={errors.email}
+            />
+            <TextField
+                label="Пароль"
+                type="password"
+                name="password"
+                value={data.password}
+                onChange={handleChange}
+                error={errors.password}
+            />
+            <CheckBoxField
+                name="stayOn"
+                value={data.stayOn}
+                onChange={handleChange}
+            >
                 Оставаться в системе
             </CheckBoxField>
             {loginError && <p className="text-danger">{loginError}</p>}
-            <button className="btn btn-primary w-100 mx-auto mb-2" disabled={!isValid}>Отправить</button>
+            <button
+                className="btn btn-primary w-100 mx-auto mb-2"
+                disabled={!isValid}
+            >
+                Отправить
+            </button>
         </form>
     );
 };

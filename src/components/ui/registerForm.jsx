@@ -20,14 +20,14 @@ const RegisterForm = () => {
         qualities: [],
         licence: false
     });
-    const dispatch = useDispatch()
-    const qualities = useSelector(getQualities())
+    const dispatch = useDispatch();
+    const qualities = useSelector(getQualities());
     const qualitiesList = qualities.map((optionName) => ({
         value: optionName._id,
         label: optionName.name
     }));
 
-    const professions = useSelector(getProfessions())
+    const professions = useSelector(getProfessions());
     const professionsList = professions.map((professionName) => ({
         label: professionName.name,
         value: professionName._id
