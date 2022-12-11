@@ -18,7 +18,7 @@ router
     })
     .post(auth, async (req, res) => {
         try {
-            const newComment = await Comment({
+            const newComment = await Comment.create({
                 ...req.body,
                 userId: req.user._id
             })
@@ -30,7 +30,7 @@ router
         }
     })
 
-router.delete("/:commentId", auth, async () => {
+router.delete("/:commentId", auth, async (req, res) => {
     try {
             const {commentId} = req.params
         const removedComment = await Comment.findById(commentId)
@@ -40,7 +40,7 @@ router.delete("/:commentId", auth, async () => {
         } else {
             res.status(401).json({message: "Unauthorized"})
         }
-        } catch (error) {
+    } catch (error) {
             res.status(500).json({
                 message: "На сервере произошла ошибка. Попробуйте позже.",
               });

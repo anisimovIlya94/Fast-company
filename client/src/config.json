@@ -1,4 +1,4 @@
 {
-    "endPoint" : "https://fast-company-firebase-885e7-default-rtdb.europe-west1.firebasedatabase.app/",
-    "isFireBase": true
+    "endPoint" : "/api",
+    "isFireBase": false
 }

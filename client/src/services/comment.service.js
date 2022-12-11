@@ -4,14 +4,14 @@ const commentEndPoint = "comment/";
 
 const commentService = {
     createComment: async (content) => {
-        const { data } = await httpServices.put(commentEndPoint + content._id, content);
+        const { data } = await httpServices.post(commentEndPoint, content);
         return data;
     },
     getComments: async (pageId) => {
         const { data } = await httpServices.get(commentEndPoint, {
             params: {
-                orderBy: '"pageId"',
-                equalTo: `"${pageId}"`
+                orderBy: "pageId",
+                equalTo: `${pageId}`
             }
         });
         return data;

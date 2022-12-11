@@ -75,7 +75,6 @@ const UsersListPage = () => {
         };
         useEffect(() => {
             setCurrentPage(1);
-            console.log(usersWithoutCurrent);
         }, [selectedProf]);
         return (
             <div className="d-flex flex-row">
