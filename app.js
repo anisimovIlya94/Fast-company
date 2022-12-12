@@ -16,7 +16,7 @@ app.use("/api", routes);
 
 const PORT = process.env.PORT || 8080;
 
-if (process.env.NODE_ENV === "production") {
+// if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join(__dirname, "client")));
 
   const indexPath = path.join(__dirname, "client", "index.html");
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
     res.sendFile(indexPath);
   });
-}
+// }
 
 async function start() {
   try {
