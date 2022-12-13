@@ -1,4 +1,4 @@
 {
-    "endPoint" : "/api",
+    "endPoint": "http://84.38.183.178/api",
     "isFireBase": false
 }
